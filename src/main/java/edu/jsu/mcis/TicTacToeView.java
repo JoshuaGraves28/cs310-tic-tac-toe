@@ -20,9 +20,11 @@ public class TicTacToeView {
         
         /* Prompt the player to enter the row and the column of their next move.
            Return as a TicTacToeMove object. */
-        
+        System.out.println("Enter the row and column where you would like to place your mark.");
         // INSERT YOUR CODE HERE
-
+        
+        row = keyboard.nextInt();
+        col = keyboard.nextInt();
         return null; // remove this line later!
 
     }
