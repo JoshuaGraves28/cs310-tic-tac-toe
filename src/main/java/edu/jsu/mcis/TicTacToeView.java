@@ -22,10 +22,22 @@ public class TicTacToeView {
            Return as a TicTacToeMove object. */
         System.out.println("Enter the row and column where you would like to place your mark.");
         // INSERT YOUR CODE HERE
+
+        int row = keyboard.nextInt();
+
+        int col = keyboard.nextInt();
         
-        row = keyboard.nextInt();
-        col = keyboard.nextInt();
-        return null; // remove this line later!
+        if ((row >= 0 && col >= 0) && (row <= 2 && col <= 2)){
+            TicTacToeMove mover = new TicTacToeMove(row, col);
+
+            return mover;
+        }
+        else {
+            showInputError();
+            return getNextMove(isXTurn);
+        }
+
+        
 
     }
 
