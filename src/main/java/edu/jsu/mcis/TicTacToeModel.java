@@ -93,24 +93,13 @@ public class TicTacToeModel {
            other player before returning TRUE.  Otherwise, return FALSE. */
         
         // INSERT YOUR CODE HERE
-        boolean marked = false; 
-    
-        if(isSquareMarked(row, col)==true && this.isSquareMarked(row,col) == false){
-            if(this.xTurn == true){
-                board[row][col] = Mark.X;
-                marked = true;
-            }
-            else{
-                board[row][col] = Mark.O;
-                marked = true;
-            }
-          xTurn = !xTurn;
+       if (isValidSquare(row, col) && !isSquareMarked(row, col)) {
+           if (xTurn) {board[row][col] = Mark.X; }
+           else {board[row][col] = Mark.O;}
+           xTurn = !xTurn;
+           return true;
         }
-        else{
-          marked = false;
-        }
-
-        return marked;
+        else {return false;}
         
         
         
@@ -122,13 +111,13 @@ public class TicTacToeModel {
         
         // INSERT YOUR CODE HERE
         boolean square = false;
-            if((row<0)||(col<0)||(row> width -1)|| (col > width -1)){
-             square = false; 
-            }
-            else{
-                square = true;
-            }
-            return square;
+           if((row <0 ||row >=width) || (col< 0 || col>=width)){
+               return false;
+
+           }
+           else{
+               return true;
+           }
         
     }
 	
@@ -138,12 +127,10 @@ public class TicTacToeModel {
         
         // INSERT YOUR CODE HERE
         
-        if(board[row][col] != Mark.EMPTY){
-            return false;
-        }
-        else{
-            return true;
-        }
+        if (!board[row][col].equals(Mark.EMPTY)) {return true;}
+
+        else {return false;}
+        
         
             
     }
@@ -279,22 +266,18 @@ public class TicTacToeModel {
         StringBuilder output = new StringBuilder("  ");
         
         /* Output the board contents as a string (see examples) */
-        int boardnum = 0;
-        // INSERT YOUR CODE HERE
+       int boardcount = 0;
+        for (int i = 0; i < getWidth(); i++){
+            output.append(i);
+        }
         output.append("\n");
-        for (int x = 0; x< getWidth(); x++){
-            output.append(boardnum + " ");
-            for (int y = 0; y < getWidth(); y++){
-                output.append(board[x][y]);
+        for (int j = 0; j < getWidth(); j++){
+            output.append(boardcount + " ");
+            for (int k = 0; k < getWidth(); k++){
+                output.append(board[j][k]);
             }
             output.append("\n");
-            boardnum++;
-        }
-
-
-
-        for(int i=0; i < width; ++i){
-            output.append(i);
+            boardcount++;
         }
         return output.toString();
         
