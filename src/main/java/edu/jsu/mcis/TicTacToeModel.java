@@ -77,8 +77,8 @@ public class TicTacToeModel {
         
         // INSERT YOUR CODE HERE
         for(int i = 0; i< width; i++){
-            for(int x = 0; x< width; x++){
-                board[i][x] = Mark.EMPTY;
+            for(int j = 0; j< width; j++){
+                board[i][j] = Mark.EMPTY;
             }
 
         }
@@ -93,27 +93,26 @@ public class TicTacToeModel {
            other player before returning TRUE.  Otherwise, return FALSE. */
         
         // INSERT YOUR CODE HERE
-        
-        if(isValidSquare(row,col)){
-            if(!isSquareMarked(row, col)){
-                if(!xTurn){
-                    board[row][col] = Mark.O;
-                }
-                if(xTurn){
-                    board[row][col] = Mark.X;
-                }  
-                xTurn = !xTurn;
-               
-                return true;
+        boolean marked = false; 
+    
+        if(isSquareMarked(row, col)==true && this.isSquareMarked(row,col) == false){
+            if(this.xTurn == true){
+                board[row][col] = Mark.X;
+                marked = true;
             }
             else{
-                return false;
+                board[row][col] = Mark.O;
+                marked = true;
             }
+          xTurn = !xTurn;
         }
-    
         else{
-            return false;
+          marked = false;
         }
+
+        return marked;
+        
+        
         
     }
 	
@@ -122,12 +121,14 @@ public class TicTacToeModel {
         /* Return TRUE if the specified location is within the bounds of the board */
         
         // INSERT YOUR CODE HERE
-            if((row<0 || col < 0)||(row >= getWidth() || col >=getWidth())){
-             return true; 
+        boolean square = false;
+            if((row<0)||(col<0)||(row> width -1)|| (col > width -1)){
+             square = false; 
             }
             else{
-                return false;
+                square = true;
             }
+            return square;
         
     }
 	
@@ -136,7 +137,13 @@ public class TicTacToeModel {
         /* Return TRUE if the square at specified location is marked */
         
         // INSERT YOUR CODE HERE
-        return(board[row][col] != Mark.EMPTY);
+        
+        if(board[row][col] != Mark.EMPTY){
+            return false;
+        }
+        else{
+            return true;
+        }
         
             
     }
@@ -159,26 +166,17 @@ public class TicTacToeModel {
            value */
         
         // INSERT YOUR CODE HERE
-        if (isTie()){
+        if(isMarkWin(Mark.X)){
+            return Result.X;
+        }
+        else if(isMarkWin(Mark.O)){
+            return Result.O;
+        }
+        else if(isTie()){
             return Result.TIE;
         }
-        else {
-            if (xTurn) {
-                if (isMarkWin(Mark.O)){
-                    return Result.O;
-                }
-                else {
-                    return Result.NONE;
-                }
-            }
-            else {
-                if (isMarkWin(Mark.X)){
-                    return Result.X;
-                }
-                else {
-                    return Result.NONE;
-                }
-            }
+        else{
+            return Result.NONE;
         }
         
     }
@@ -193,52 +191,39 @@ public class TicTacToeModel {
         
         // INSERT YOUR CODE HERE
         boolean diagonalONE = true;
-        boolean winnerRow = false;
         boolean diagonalTWO = true;
-        boolean winnerCol = false;
-        for (int i = 0; i < getWidth(); i++) {
-            boolean winnerR = true;
-
-            for (int a = 0; a < getWidth(); a++) {
-                if (board[a][i] != mark){
-                    winnerR = false;
-                }
+        for(int i=0; i<width; i++){
+            if(!board[i][i].equals(mark)){
+                diagonalONE = false;
             }
-            if (winnerR) {
-                winnerRow = true;
-            }
-        }
-
-        for (int b = 0; b < getWidth(); b++) {
-            boolean winnerC = true;
-
-            for (int c = 0; c < getWidth(); c++) {
-                if (board[b][c] != mark) {
-                    winnerC = false;
-                }
-            }
-            if (winnerC) {
-                winnerCol = true;
-            }
-        }
-
-        for (int d = 0; d < getWidth(); d++){
-            if (board[d][d] != mark) { 
-                diagonalONE = false; 
-            }
-        }
-        for(int e = 0; e< getWidth(); e++){
-            if(board[(getWidth() - 1) - e][e] != mark){
+            if(!board[i][width -1 -i].equals(mark)){
                 diagonalTWO = false;
             }
-        }
+            
+            boolean vertical_win = true;
+            boolean horizontal_win = true;
 
-        if(winnerCol|| winnerRow || diagonalONE || diagonalTWO){
+            for(int j = 0; j<width; j++){
+                if(!board[i][j].equals(mark)){
+                    horizontal_win = false;
+                }
+                if(!board[j][i].equals(mark)){
+                    vertical_win =false;
+                }
+            }
+            if(horizontal_win || vertical_win){
+              return true;
+            }
+        }
+        if(diagonalONE || diagonalTWO){
             return true;
         }
         else{
             return false;
         }
+            
+            
+        
 
     }
 	
